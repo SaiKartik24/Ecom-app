@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xmlns:camel="http://camel.apache.org/schema/spring"
+
+	xmlns:util="http://camel.apache.org/schema/util"
+
+	xsi:schemaLocation="
+
+          http://www.springframework.org/schema/beans 
+
+          http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+
+          http://camel.apache.org/schema/spring 
+
+          http://camel.apache.org/schema/spring/camel-spring.xsd
+
+         http://www.springframework.org/schema/util
+
+         http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<import resource="loadRoutes.xml" />
+
+	<camel:camelContext
+
+		xmlns="http://camel.apache.org/schema/spring">
+
+		<camel:routeContextRef ref="loadRoutes"></camel:routeContextRef>
+
+		<camel:dataFormats>
+
+			<camel:base64 lineLength="64" id="baseWith64" />
+
+		</camel:dataFormats>
+
+	</camel:camelContext>
+
+	<!-- Property Injection>-->
+	<bean
+
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="File:./routes/.camel/Properties.properties"/>
+
+	</bean>
+
+
+
+
+
+	<!-- LOGGING -->
+
+
+
+	<bean name="log"
+
+		class="org.apache.camel.component.log.LogComponent">
+
+		<property name="exchangeFormatter" ref="CustomLogger" />
+
+	</bean>
+
+	<bean id="CustomLogger"
+		class="com.miracle.camel.log.CustomLogger" />
+
+
+	<!-- Audit Logging -->
+
+	<bean name="audit"
+
+		class="org.apache.camel.component.log.LogComponent">
+
+		<property name="exchangeFormatter" ref="AuditLogger" />
+
+	</bean>
+
+	<bean id="AuditLogger"
+
+		class="com.miracle.camel.audit.AuditLogger" />
+
+	<bean id="nettyHttpBootstrapOptions"
+
+		class="org.apache.camel.component.netty.NettyServerBootstrapConfiguration">
+
+		<property name="backlog" value="200" />
+
+		<property name="workerCount" value="16" />
+
+		<property name="host" value="20.80.120.7" />
+
+		<property name="port" value="8080" />
+
+	</bean>
+
+
+
+
+	<!-- <bean id="messageLogger" class="com.miracle.camel.log.MessageLogger" 
+
+		/> -->
+
+
+	<bean id="compressProcessor"
+		class="com.miracle.camel.utility.CompressProcessor" />
+	<bean id="decompressProcessor"
+		class="com.miracle.camel.utility.DeCompressProcessor" />
+	<bean id="encodeProcessor"
+		class="com.miracle.camel.utility.EncodeProcessor" />
+	<bean id="decodeProcessor"
+		class="com.miracle.camel.utility.DecodeProcessor" />
+	<bean id="transProcessor"
+		class="com.miracle.camel.utility.TransProcessor" />
+	<bean id="iTXProcessor"
+		class="com.miracle.itx.utility.ITXProcessor" />
+		<!-- MQ swapping WMQ/AMQ -->
+
+	<bean id="mq" class="org.apache.camel.component.jms.JmsComponent">
+		<property name="connectionFactory" ref="${MQ.Creds}" />
+	</bean>
+
+
+	<!-- WMQ Properties -->
+
+	<bean id="wmq" class="org.apache.camel.component.jms.JmsComponent">
+		<property name="connectionFactory" ref="wmqCreds" />
+	</bean>
+
+	<bean id="wmqCreds"
+		class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+		<property name="targetConnectionFactory" ref="myConnectionFactory" />
+		<property name="username" value="${MQConnection.User}" />
+		<property name="password" value="${MQConnection.Pwd}" />
+	</bean>
+
+	<bean id="myConnectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory">
+		<property name="hostName" value="${MQConnection.Host}" />
+		<property name="port" value="${MQConnection.Port}" />
+		<property name="queueManager" value="${MQConnection.QMGR}" />
+		<property name="channel" value="${MQConnection.CHNL}" />
+		<property name="transportType" value="1" />
+	</bean>
+
+	<!-- ACtive MQ conn -->
+
+	<bean id="amq" class="org.apache.camel.component.jms.JmsComponent">
+		<property name="connectionFactory" ref="amqCreds" />
+	</bean>
+
+
+	<bean id="amqCreds"
+		class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+		<property name="targetConnectionFactory" ref="amqFactory" />
+		<property name="username" value="${AMQConnection.user}" />
+		<property name="password" value="${AMQConnection.password}" />
+	</bean>
+
+	<bean id="amqFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="${AMQConnection.url}" />
+	</bean>
+
+	<bean id="amq3" class="org.apache.camel.component.jms.JmsComponent">
+        <property name="connectionFactory" ref="amqCreds3" />
+    </bean>
+
+    <bean id="amqCreds3"
+        class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+        <property name="targetConnectionFactory" ref="amqFactory3" />
+		<property name="username" value="${AMQConnection.user}" />
+        <property name="password" value="${AMQConnection.password}" />
+    </bean>
+
+    <bean id="amqFactory3" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${AMQConnection.url}" />
+    </bean>
+
+	<bean id="MTXProcessor" class="com.miracle.mtx.utility.MTXProcessor" />
+<!-- Application MQ Details Start -->
+
+<!-- Payroll MQ Details Start -->
+<bean id="Payroll" class="org.apache.camel.component.jms.JmsComponent"><property name="connectionFactory" ref="PayrollCreds" /></bean>
+<bean id="PayrollCreds" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter"><property name="targetConnectionFactory" ref="PayrollFactory" /><property name="username" value="artemis" /><property name="password" value="simetraehcapa" /></bean>
+<bean id="PayrollFactory" class="org.apache.activemq.ActiveMQConnectionFactory"><property name="brokerURL" value="tcp://activemq-artemis:61616" /></bean>
+<!-- Payroll MQ Details End -->
+
+<!-- Logistics MQ Details Start -->
+<bean id="Logistics" class="org.apache.camel.component.jms.JmsComponent"><property name="connectionFactory" ref="LogisticsCreds" /></bean>
+<bean id="LogisticsCreds" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter"><property name="targetConnectionFactory" ref="LogisticsFactory" /><property name="username" value="admin" /><property name="password" value="Miracle@1234" /></bean>
+<bean id="LogisticsFactory" class="com.ibm.mq.jms.MQConnectionFactory"><property name="hostName" value="mq-ibm-mq" /><property name="port" value="1414" /><property name="queueManager" value="mq" /><property name="channel" value="DEV.ADMIN.SVRCONN" /><property name="transportType" value="1" /></bean>
+<!-- Logistics MQ Details End -->
+
+<!-- General Ledger MQ Details Start -->
+<bean id="GeneralLedger" class="org.apache.camel.component.jms.JmsComponent"><property name="connectionFactory" ref="${MQ.Creds}" /></bean>
+<!-- General Ledger MQ Details End -->
+
+<!-- Treasury MQ Details Start -->
+<bean id="Treasury" class="org.apache.camel.component.jms.JmsComponent"><property name="connectionFactory" ref="${MQ.Creds}" /></bean>
+<!-- Treasury MQ Details End -->
+
+<!-- Retail Management MQ Details Start -->
+<bean id="RetailManagement" class="org.apache.camel.component.jms.JmsComponent"><property name="connectionFactory" ref="${MQ.Creds}" /></bean>
+<!-- Retail Management MQ Details End -->
+
+<!-- Inventory Management MQ Details Start -->
+<bean id="InventoryManagement" class="org.apache.camel.component.jms.JmsComponent"><property name="connectionFactory" ref="${MQ.Creds}" /></bean>
+<!-- Inventory Management MQ Details End -->
+
+<!-- Application MQ Details End -->
+
+</beans>

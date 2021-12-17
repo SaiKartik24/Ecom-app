@@ -1,0 +1,34 @@
+To run and test the application Mint on different templates
+
+After creating a palletes, template and integration.
+Publish this integration into maps&routes path (.camel/) 
+Ater that check the published .xml file is as expectation from given in xml files 
+
+For running test cases you to check all the related .feature file, setp files and testTemplate files which are present inside maps&routes (testTemplate/) if not there keep it ready
+There are some important 
+for scaling issues 
+ 
+As the integrations are ready we are ready to test with certain input message (xml/json) and expected message (xml/json) wrt to integrations and its files will store inside maps&routes(testCases/)
+
+1 Pass Through(I0001) -> Input.xml. OutExpt.xml
+2 Basic Rest (I0002)-> (Get function) Input.xml, OutExpt.xml
+3 REST Post (I0003)-> (Post function) InputPost.xml, OutPostExpt.xml
+
+4 MXT Test (I0004)-> For the secenario we need to generate an Jmapper ip (http://52.154.218.202:4000/) which will vary from change in clusters
+ Here we have to give few input.xsd and output.xsd along with new project name and project for transformation
+ Next after adding the xsd's map the input.xsd to out.xsd as requirment then click on continue.
+ 
+ Then come to mints application and the test the mxt_test integrtation with inputMxtPost.xml and expected outputMXTPost(will in string format) and then test 
+
+5 XSLT Basic (I0005)
+
+
+
+
+
+
+24/03/21
+issues with 
+context file 
+rest entry
+

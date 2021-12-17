@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jmapper>
+	<configuration>
+				<inoutformat>xml2xml</inoutformat>
+			<inputdefinition>input.orders.xsd</inputdefinition>
+			<outputdefinition>output.orders.xsd</outputdefinition>
+		</configuration>
+
+
+	<class name="output.OutOrders$OutOrder">
+		<attribute name="poorderno">
+			<value name="orderno"/>
+		</attribute>
+		<attribute name="ordername">
+			<value name="ordername"/>
+		</attribute>
+
+		<attribute name="ponumber">
+			<value name="ponumber"/>
+		</attribute>
+		<attribute name="memberno">
+			<value name="customerno"/>
+		</attribute>
+
+
+		<attribute name="zipcode">
+	 <value name="${address.zipcode}"/>
+<!-- 	<value name="streetno"/> -->
+	</attribute>
+		<attribute name="city">
+	 <value name="${address.city}"/>
+<!-- 	 <value>return ${address.city} + " " + ${address.streetno};</value>-->
+<!-- 	<value name="streetno"/> -->
+	</attribute>
+	    <attribute name="streetno">
+		 <value name="${address.streetno}"/>
+	<!-- 	<value name="streetno"/> -->
+		</attribute>
+
+		<attribute name="lat">
+	 <value name="${address.location.lat}"/>
+<!-- 	<value name="streetno"/> -->
+	</attribute>
+
+	<attribute name="lang">
+ <value name="${address.location.lang}"/>
+<!-- 	<value name="streetno"/> -->
+</attribute>
+<attribute name="code">
+	 <value name="${address.location.geo.code}"/>
+<!-- 	<value name="streetno"/> -->
+	</attribute>
+<attribute name="state1">
+	 <value name="${address.location.geo.states.state1}"/>
+<!-- 	<value name="streetno"/> -->
+	</attribute>
+	
+	<attribute name="country1">
+	 <value name="${address.location.geo.states.country.country1}"/>
+<!-- 	<value name="streetno"/> -->
+	</attribute>
+	<attribute name="pincode1">
+	 <value name="${address.location.geo.states.country.pincode.pincode1}"/>
+<!-- 	<value name="streetno"/> -->
+	</attribute>
+	</class>
+
+
+</jmapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<inOrders>
+<inOrder>
+    <orderno>123</orderno>
+    <ordername>purchase order</ordername>
+    <ponumber>4566</ponumber>
+    <customerno>1234</customerno>
+     <saleprice>20</saleprice>
+      <tax>5</tax>
+   <address>
+          <streetno>2101</streetno>
+          <city>Dallas</city>
+          <zipcode>72752</zipcode>
+           <location>
+             <lat>32M</lat>
+             <lang>343B</lang>
+              <geo> 
+              <code>21.12.12334</code>
+              <states>
+              <state1>XXXXXXXXX</state1>
+               <country>
+               <country1>MMMMMMMMMMM</country1>
+                 <pincode>
+              <pincode1>0987654323</pincode1>
+              </pincode>
+               </country>
+              </states>
+             </geo>
+          </location>
+ </address>
+ </inOrder>
+<inOrder>
+    <orderno>456</orderno>
+    <ordername>purchase orde1r</ordername>
+    <ponumber>88899</ponumber>
+    <customerno>4567</customerno>
+     <saleprice>12</saleprice>
+      <tax>4</tax>
+   <address>
+          <streetno>2101</streetno>
+          <city>New York</city>
+          <zipcode>12345</zipcode>
+        <location>
+             <lat>32S</lat>
+             <lang>343E</lang>
+             <geo> 
+              <code>21.12.123</code>
+               <states>
+              <state1>YYYYYYYYYYYYYY</state1>
+              <country>
+              <country1>NNNNNNN</country1>
+              <pincode>
+              <pincode1>12345678</pincode1>
+              </pincode>
+              </country>
+              </states>
+             </geo>
+          </location>
+ </address>
+ </inOrder>
+ 
+</inOrders>
