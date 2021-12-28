@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://camel.apache.org/schema/spring">
+	<route id="I0002">
+		<from uri="Sourcing:queue:INLET?concurrentConsumers=1&amp;selector=MINTID%3D'I0002'" />
+		<to uri="audit:Inlet?level=info" />
+		<setHeader name="CamelHttpMethod">
+			<constant>GET</constant>
+		</setHeader>
+		<setHeader name="Content-Type">
+			<constant>application/xml</constant>
+		</setHeader>
+		<setHeader name="accept">
+			<constant>application/xml</constant>
+		</setHeader>
+		<to uri="https://jsonplaceholder.typicode.com/comments?postId=1"/>
+		<transform>
+			<simple>${bodyAs(String)}</simple>
+		</transform>
+		<to uri="audit:REST?level=INFO"/>
+		<to uri="OrderProcessing:queue:REST.GET.OUTLET" />
+		<to uri="audit:Outlet?level=info" />
+	</route>
+</routes>

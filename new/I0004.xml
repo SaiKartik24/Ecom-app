@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://camel.apache.org/schema/spring">
+	<route id="I0004">
+		<from uri="CustomerInteract:queue:INLET?selector=MINTID%3D'I0004'" />
+		<to uri="audit:Inlet?level=info"/>
+		<setHeader name="mapName">
+			<simple>PurchaseOrder</simple>
+		</setHeader>
+		<setHeader name="projectPath">
+			<simple>Products</simple>
+		</setHeader>
+		<setHeader name="endpoint">
+			<simple>CustomerInteract:queue:MTX.OUT</simple>
+		</setHeader>
+		<to uri="audit:SetParams?level=info"/>
+		<to uri="mq:queue:mq:queue:TRANS"/>
+		<to uri="audit:Transform?level=info"/>
+	</route>
+</routes>
