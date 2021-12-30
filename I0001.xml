@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://camel.apache.org/schema/spring">
+	<route id="I0001">
+		<from uri="Sourcing:queue:INLET?concurrentConsumers=1&amp;selector=MINTID%3D'I0001'" />
+		<to uri="audit:Inlet?level=info" />
+		<to uri="Sourcing:queue:OUTLET" />
+		<to uri="audit:Outlet?level=info" />
+	</route>
+</routes>

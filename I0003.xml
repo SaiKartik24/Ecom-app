@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns="http://camel.apache.org/schema/spring">
+	<route id="I0003">
+		<from uri="Procurement:queue:INLET?concurrentConsumers=1&amp;selector=MINTID%3D'I0003'" />
+		<to uri="audit:Inlet?level=info" />
+		<setHeader name="CamelHttpMethod">
+			<constant>POST</constant>
+		</setHeader>
+		<setHeader name="Content-Type">
+			<constant>application/xml</constant>
+		</setHeader>
+		<setHeader name="accept">
+			<constant>application/xml</constant>
+		</setHeader>
+		<to uri="https://reqbin.com/echo/post/json"/>
+		<transform>
+			<simple>${bodyAs(String)}</simple>
+		</transform>
+		<to uri="audit:REST?level=INFO"/>
+		<to uri="OrderProcessing:queue:REST.OUTLET" />
+		<to uri="audit:Outlet?level=info" />
+	</route>
+</routes>
